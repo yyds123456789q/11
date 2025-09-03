@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>免费领1-6年卷子资料</title>
+    <meta name="description" content="免费领取1-6年级资料，暑期查缺补漏复习卷、满分数学笔记等">
+    
+    <!-- 针对微信分享优化的meta标签 -->
+    <meta property="og:title" content="免费领1-6年卷子资料">
+    <meta property="og:description" content="66号文件来！免费领，已有56987位家长成功领取">
+    <meta property="og:type" content="website">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'PingFang SC', 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: #fff;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        
+        .title {
+            color: white;
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            color: rgba(255,255,255,0.9);
+            font-size: 14px;
+        }
+        
+        .content-card {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+        }
+        
+        .resource-title {
+            color: #333;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .resource-list {
+            margin-bottom: 20px;
+        }
+        
+        .resource-item {
+            background: #f8f9fa;
+            padding: 12px 15px;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+            font-size: 14px;
+        }
+        
+        .stats {
+            background: #e8f4fd;
+            border: 2px solid #007acc;
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .stats-number {
+            color: #007acc;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        
+        .stats-text {
+            color: #666;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+        
+        .cta-button {
+            background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+            color: white;
+            border: none;
+            padding: 18px 30px;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            margin: 20px 0;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.3);
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
+        }
+        
+        .cta-button:active {
+            transform: translateY(0);
+        }
+        
+        .notice {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 12px;
+            text-align: center;
+            font-size: 13px;
+            color: #856404;
+            margin-top: 15px;
+        }
+        
+        .footer {
+            text-align: center;
+            color: rgba(255,255,255,0.7);
+            font-size: 12px;
+            margin-top: 20px;
+        }
+        
+        /* 动画效果 */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        .loading {
+            display: none;
+            text-align: center;
+            color: white;
+            margin-top: 20px;
+        }
+        
+        .spinner {
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top: 3px solid white;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* 微信专用样式 */
+        .wechat-notice {
+            background: #e8f5e8;
+            border: 2px solid #4caf50;
+            border-radius: 12px;
+            padding: 15px;
+            margin: 15px 0;
+            text-align: center;
+            color: #2e7d32;
+        }
+        
+        .wechat-options {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .option-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        
+        .option-primary {
+            background: #4caf50;
+            color: white;
+        }
+        
+        .option-secondary {
+            background: #f5f5f5;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="avatar">📚</div>
+            <div class="title">免费领1-6年卷子资料</div>
+            <div class="subtitle">66号文件来！免费领</div>
+        </div>
+        
+        <div class="content-card">
+            <div class="resource-title">🎁 免费资料包含</div>
+            <div class="resource-list">
+                <div class="resource-item">📝 暑期查缺补漏复习卷</div>
+                <div class="resource-item">📖 满分数学笔记</div>
+                <div class="resource-item">📚 新学期语数英同步单元卷</div>
+                <div class="resource-item">✏️ 清北学霸提分笔记</div>
+            </div>
+            
+            <div class="stats">
+                <div class="stats-number">56,987+</div>
+                <div class="stats-text">位家长成功领取</div>
+            </div>
+            
+            <!-- 微信环境提示 -->
+            <div class="wechat-notice" id="wechatNotice" style="display: none;">
+                <div style="font-weight: bold; margin-bottom: 10px;">📱 检测到您在微信中打开</div>
+                <div style="font-size: 13px; margin-bottom: 15px;">
+                    为了更好的体验，建议您选择以下方式之一：
+                </div>
+                <div class="wechat-options">
+                    <button class="option-btn option-primary" onclick="openInBrowser()">在浏览器中打开</button>
+                    <button class="option-btn option-secondary" onclick="showQRDirectly()">直接查看二维码</button>
+                </div>
+            </div>
+            
+            <button class="cta-button pulse" onclick="joinWechatGroup()" id="mainButton">
+                🚀 点击免费领取
+            </button>
+            
+            <div class="notice">
+                ⚡ 仅限今日免费，名额有限！
+            </div>
+        </div>
+        
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <div>正在跳转到微信...</div>
+        </div>
+        
+        <div class="footer">
+            点击上方按钮即可免费获取全套资料
+        </div>
+    </div>
+
+    <script>
+        // 检测用户设备和环境
+        function detectEnvironment() {
+            const ua = navigator.userAgent.toLowerCase();
+            return {
+                isWeChat: ua.indexOf('micromessenger') !== -1,
+                isIOS: /iphone|ipad|ipod/.test(ua),
+                isAndroid: /android/.test(ua),
+                isMobile: /mobile|android|iphone|ipad|phone/.test(ua)
+            };
+        }
+        
+        // 页面加载时检查环境
+        document.addEventListener('DOMContentLoaded', function() {
+            const env = detectEnvironment();
+            
+            // 如果在微信中，显示特殊提示
+            if (env.isWeChat) {
+                document.getElementById('wechatNotice').style.display = 'block';
+                // 修改主按钮文字
+                document.getElementById('mainButton').innerHTML = '📱 查看获取方式';
+            }
+            
+            // 模拟实时更新领取人数
+            let count = 56987;
+            setInterval(() => {
+                count += Math.floor(Math.random() * 3);
+                const statsNumber = document.querySelector('.stats-number');
+                if (statsNumber) {
+                    statsNumber.textContent = count.toLocaleString() + '+';
+                }
+            }, 10000);
+            
+            console.log('外链页面已加载，环境:', env);
+        });
+        
+        // 在浏览器中打开
+        function openInBrowser() {
+            alert('请点击右上角菜单 (⋯)，选择"在浏览器中打开"或"用Safari打开"');
+        }
+        
+        // 直接显示二维码
+        function showQRDirectly() {
+            showInstruction();
+        }
+        
+        // 主要的跳转逻辑
+        function joinWechatGroup() {
+            const env = detectEnvironment();
+            const button = document.querySelector('.cta-button');
+            const loading = document.getElementById('loading');
+            
+            // 显示加载状态
+            button.style.display = 'none';
+            loading.style.display = 'block';
+            
+            const wechatGroupUrl = 'weixin://';
+            const wechatNumber = 'your_wechat_id';
+            
+            if (env.isWeChat) {
+                // 在微信内部环境，直接显示二维码和微信号
+                setTimeout(() => {
+                    showInstruction();
+                }, 500);
+                return;
+            }
+            
+            // 尝试不同的跳转方式
+            setTimeout(() => {
+                if (env.isIOS) {
+                    // iOS设备跳转微信
+                    window.location.href = wechatGroupUrl;
+                    setTimeout(() => {
+                        // 如果微信没有打开，显示引导文案
+                        showInstruction();
+                    }, 2000);
+                } else if (env.isAndroid) {
+                    // Android设备跳转微信
+                    window.location.href = wechatGroupUrl;
+                    setTimeout(() => {
+                        showInstruction();
+                    }, 2000);
+                } else {
+                    // 桌面端显示二维码或引导
+                    showInstruction();
+                }
+            }, 1000);
+        }
+        
+        // 显示操作指引
+        function showInstruction() {
+            const loading = document.getElementById('loading');
+            loading.innerHTML = `
+                <div style="background: white; border-radius: 12px; padding: 20px; color: #333;">
+                    <h3 style="margin-bottom: 15px;">📱 加入微信群获取资料</h3>
+                    <p style="margin-bottom: 10px;">方式一：扫描下方二维码</p>
+                    <div style="width: 200px; height: 200px; background: #f0f0f0; margin: 15px auto; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; color: #666; overflow: hidden;">
+                        <img src="qrcode.png" alt="微信群二维码" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.style.display='none'; this.parentElement.innerHTML='微信群二维码<br>（请添加 qrcode.png 文件）';">
+                    </div>
+                    <p style="margin: 15px 0; font-size: 14px;">方式二：添加微信号: <strong>your_wechat_id</strong></p>
+                    <button onclick="copyWechatId()" style="background: #07c160; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; margin-right: 10px;">
+                        复制微信号
+                    </button>
+                    <button onclick="resetPage()" style="background: #6c757d; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer;">
+                        返回重试
+                    </button>
+                </div>
+            `;
+        }
+        
+        // 复制微信号功能
+        function copyWechatId() {
+            const wechatId = 'your_wechat_id';
+            navigator.clipboard.writeText(wechatId).then(() => {
+                alert('微信号已复制，请打开微信添加好友');
+            }).catch(() => {
+                prompt('请手动复制微信号:', wechatId);
+            });
+        }
+        
+        // 重置页面
+        function resetPage() {
+            location.reload();
+        }
+    </script>
+</body>
+</html>
