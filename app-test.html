@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang=zh-CN>
+<head>
+<meta charset=UTF-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<title>应用检测 - 加载速度测试</title>
+<style>
+body{font-family:system-ui,sans-serif;background:#f5f7fa;margin:0;padding:20px;color:#333}
+.container{max-width:500px;margin:0 auto}
+.card{background:#fff;border-radius:12px;padding:20px;margin:15px 0;box-shadow:0 2px 8px rgba(0,0,0,.1)}
+.title{font-size:20px;font-weight:bold;margin-bottom:15px;color:#333}
+.info{background:#e3f2fd;padding:15px;border-radius:8px;margin:10px 0;border-left:4px solid #1976d2}
+.warning{background:#fff3cd;padding:15px;border-radius:8px;margin:10px 0;border-left:4px solid #ffc107;color:#856404}
+.success{background:#d4edda;padding:15px;border-radius:8px;margin:10px 0;border-left:4px solid #28a745;color:#155724}
+.btn{background:#007acc;color:#fff;border:none;padding:12px 20px;border-radius:6px;cursor:pointer;margin:5px;font-size:14px}
+.btn:hover{background:#0056b3}
+.speed-test{margin:15px 0;padding:15px;background:#f8f9fa;border-radius:8px}
+.result{font-weight:bold;font-size:16px;margin:10px 0}
+</style>
+</head>
+<body>
+<div class=container>
+<div class=card>
+<div class=title>📱 应用环境检测</div>
+<div id=appInfo></div>
+<div id=recommendations></div>
+</div>
+
+<div class=card>
+<div class=title>⚡ 加载速度测试</div>
+<div class=speed-test>
+<p>页面加载时间：<span id=loadTime class=result>计算中...</span></p>
+<p>当前网络状态：<span id=networkStatus class=result>检测中...</span></p>
+<p>建议优化方案：<span id=optimization class=result>分析中...</span></p>
+</div>
+<button class=btn onclick=runSpeedTest()>重新测试速度</button>
+<button class=btn onclick=openOptimizedPage()>打开优化版本</button>
+</div>
+
+<div class=card>
+<div class=title>🔗 测试链接</div>
+<p>您可以通过以下链接测试不同版本的加载速度：</p>
+<div style="margin:15px 0">
+<button class=btn onclick="window.open('index.html','_blank')">原版页面</button>
+<button class=btn onclick="window.open('universal-fast.html','_blank')">通用优化版</button>
+<button class=btn onclick="window.open('wechat-fast.html','_blank')">微信专用版</button>
+</div>
+</div>
+</div>
+
+<script>
+const startTime=performance.now();
+
+function detectDetailedApp(){
+const ua=navigator.userAgent;
+const uaLower=ua.toLowerCase();
+
+// 详细的应用检测
+if(uaLower.indexOf('micromessenger')!==-1){
+const version=ua.match(/micromessenger\/(\d+\.\d+)/i);
+return{
+name:'微信',
+code:'wechat',
+version:version?version[1]:'未知',
+inApp:true,
+optimization:'high'
+};
+}
+
+if(uaLower.indexOf('qq/')!==-1){
+return{
+name:'QQ',
+code:'qq',
+version:'未知',
+inApp:true,
+optimization:'medium'
+};
+}
+
+if(uaLower.indexOf('weibo')!==-1){
+return{
+name:'微博',
+code:'weibo',
+version:'未知',
+inApp:true,
+optimization:'medium'
+};
+}
+
+if(uaLower.indexOf('zhihu')!==-1){
+return{
+name:'知乎',
+code:'zhihu',
+version:'未知',
+inApp:true,
+optimization:'low'
+};
+}
+
+if(uaLower.indexOf('aweme')!==-1||uaLower.indexOf('tiktok')!==-1){
+return{
+name:'抖音/TikTok',
+code:'douyin',
+version:'未知',
+inApp:true,
+optimization:'high'
+};
+}
+
+if(uaLower.indexOf('taobao')!==-1||uaLower.indexOf('aliapp')!==-1){
+return{
+name:'淘宝/阿里系应用',
+code:'taobao',
+version:'未知',
+inApp:true,
+optimization:'medium'
+};
+}
+
+if(uaLower.indexOf('xiaohongshu')!==-1||uaLower.indexOf('redbook')!==-1){
+return{
+name:'小红书',
+code:'xiaohongshu',
+version:'未知',
+inApp:true,
+optimization:'medium'
+};
+}
+
+// 检测系统浏览器
+if(uaLower.indexOf('safari')!==-1&&uaLower.indexOf('chrome')===-1){
+return{
+name:'Safari',
+code:'safari',
+version:'未知',
+inApp:false,
+optimization:'none'
+};
+}
+
+if(uaLower.indexOf('chrome')!==-1){
+return{
+name:'Chrome',
+code:'chrome',
+version:'未知',
+inApp:false,
+optimization:'none'
+};
+}
+
+return{
+name:'未知浏览器',
+code:'unknown',
+version:'未知',
+inApp:false,
+optimization:'unknown'
+};
+}
+
+function displayAppInfo(){
+const app=detectDetailedApp();
+const appInfoDiv=document.getElementById('appInfo');
+const recommendationsDiv=document.getElementById('recommendations');
+
+let infoHtml=`
+<div class="${app.inApp?'warning':'success'}">
+<strong>当前环境：</strong>${app.name} ${app.version}<br>
+<strong>是否应用内：</strong>${app.inApp?'是':'否'}<br>
+<strong>用户代理：</strong><small>${navigator.userAgent}</small>
+</div>
+`;
+
+let recommendationHtml='';
+if(app.inApp){
+switch(app.optimization){
+case 'high':
+recommendationHtml=`
+<div class=info>
+<strong>🚀 高优先级优化建议：</strong><br>
+1. 引导用户在外部浏览器中打开<br>
+2. 使用轻量化页面版本<br>
+3. 添加加载提示和说明<br>
+4. 优化网络请求和缓存策略
+</div>
+`;
+break;
+case 'medium':
+recommendationHtml=`
+<div class=info>
+<strong>⚡ 中等优化建议：</strong><br>
+1. 提供外部浏览器打开选项<br>
+2. 简化页面内容<br>
+3. 添加加载状态提示
+</div>
+`;
+break;
+default:
+recommendationHtml=`
+<div class=info>
+<strong>💡 基础优化建议：</strong><br>
+1. 压缩资源文件<br>
+2. 优化图片加载<br>
+3. 减少不必要的JavaScript
+</div>
+`;
+}
+}else{
+recommendationHtml=`
+<div class=success>
+<strong>✅ 当前环境优良：</strong><br>
+您正在使用系统浏览器，加载速度应该很快。如果仍然较慢，可能是网络问题。
+</div>
+`;
+}
+
+appInfoDiv.innerHTML=infoHtml;
+recommendationsDiv.innerHTML=recommendationHtml;
+}
+
+function calculateLoadTime(){
+const endTime=performance.now();
+const loadTime=Math.round(endTime-startTime);
+document.getElementById('loadTime').textContent=loadTime+'毫秒';
+
+// 网络状态检测
+const connection=navigator.connection||navigator.mozConnection||navigator.webkitConnection;
+let networkInfo='未知';
+if(connection){
+networkInfo=`${connection.effectiveType||'未知'} (${connection.downlink||'未知'}Mbps)`;
+}
+document.getElementById('networkStatus').textContent=networkInfo;
+
+// 优化建议
+const app=detectDetailedApp();
+let optimization='';
+if(loadTime<1000){
+optimization='加载速度良好，无需优化';
+}else if(loadTime<3000){
+optimization=app.inApp?'建议使用外部浏览器':'可考虑页面优化';
+}else{
+optimization=app.inApp?'强烈建议使用外部浏览器':'网络可能较慢，建议优化';
+}
+document.getElementById('optimization').textContent=optimization;
+}
+
+function runSpeedTest(){
+const testStart=performance.now();
+// 模拟一些资源加载
+setTimeout(()=>{
+const testEnd=performance.now();
+const testTime=Math.round(testEnd-testStart);
+alert(`测试完成！\n响应时间：${testTime}毫秒\n\n${testTime<500?'🚀 速度很快':'⚠️ 建议优化'}`);
+},100);
+}
+
+function openOptimizedPage(){
+const app=detectDetailedApp();
+if(app.inApp){
+window.open('universal-fast.html','_blank');
+}else{
+window.open('index.html','_blank');
+}
+}
+
+// 页面加载完成后执行
+document.addEventListener('DOMContentLoaded',function(){
+displayAppInfo();
+setTimeout(calculateLoadTime,100);
+});
+</script>
+</body>
+</html>
